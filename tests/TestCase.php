@@ -6,31 +6,30 @@ use Frikishaan\Autonumber\AutonumberServiceProvider;
 
 class TestCase extends \Orchestra\Testbench\TestCase
 {
-  public function setUp(): void
-  {
-    parent::setUp();
+    public function setUp(): void
+    {
+        parent::setUp();
 
-    // Prepare Database
-    $this->loadMigrationsFrom(__DIR__.'/database/migrations');
-    
-    $this->artisan('migrate');
-  }
+        // Prepare Database
+        $this->loadMigrationsFrom(__DIR__.'/database/migrations');
 
-  protected function getPackageProviders($app)
-  {
-    return [
-        AutonumberServiceProvider::class,
-    ];
-  }
+        $this->artisan('migrate');
+    }
 
-  protected function getEnvironmentSetUp($app)
-  {
-    // perform environment setup
-    $app['config']->set('database.connections.testing', [
-        'driver'   => 'sqlite',
-        'database' => ':memory:',
-        'prefix'   => '',
-    ]);
+    protected function getPackageProviders($app)
+    {
+        return [
+            AutonumberServiceProvider::class,
+        ];
+    }
 
-  }
+    protected function getEnvironmentSetUp($app)
+    {
+        // perform environment setup
+        $app['config']->set('database.connections.testing', [
+            'driver'   => 'sqlite',
+            'database' => ':memory:',
+            'prefix'   => '',
+        ]);
+    }
 }

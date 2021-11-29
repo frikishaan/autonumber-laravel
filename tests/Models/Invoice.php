@@ -8,8 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Invoice extends Model
 {
     use HasAutonumber;
-    
+
     protected $fillable = [
-        'customer', 'amount'
+        'customer', 'amount',
     ];
 }

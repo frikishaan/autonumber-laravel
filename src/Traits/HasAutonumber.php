@@ -13,6 +13,5 @@ trait HasAutonumber
         static::creating(function (Model $model) {
             Autonumber::generate($model);
         });
-
     }
 }
