@@ -9,6 +9,6 @@ class Autonumber extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'table_name', 'column_name', 'prefix', 'suffix', 'min_digits', 'next_number'
+        'table_name', 'column_name', 'prefix', 'suffix', 'min_digits', 'next_number',
     ];
 }

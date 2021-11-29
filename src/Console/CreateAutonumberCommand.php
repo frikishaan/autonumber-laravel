@@ -16,7 +16,7 @@ class CreateAutonumberCommand extends Command
      */
     protected $signature = 'autonumber:create';
 
-     /**
+    /**
      * The console command description.
      *
      * @var string
@@ -33,23 +33,26 @@ class CreateAutonumberCommand extends Command
         $table_name = $this->askWithValidation('Table Name (name of the table you wish to create autonumber in)', ['required'], 'table_name');
 
         // Check if table exist
-        if(!Schema::hasTable($table_name)){
+        if (! Schema::hasTable($table_name)) {
             $this->error("Table does not exist with name '$table_name'");
+
             return;
         }
 
-        $column_name = $this->askWithValidation("Name of the column in the table to be used as autonumber field", ['required'], 'column_name');
+        $column_name = $this->askWithValidation('Name of the column in the table to be used as autonumber field', ['required'], 'column_name');
 
         // Check if column exist
-        if(!Schema::hasColumn($table_name, $column_name)){
+        if (! Schema::hasColumn($table_name, $column_name)) {
             $this->error("The column with name '$column_name' does not exist in the table '$table_name'.");
+
             return;
         }
 
         // Check if a autonumber already exist for this column
-        if($this->isAutoumberExist($table_name, $column_name)){
-            $this->error("An Autonumber record already exist for this column.");
-            $this->error("Use command `php artisan autonumber:list` to check all existing autonumbers");
+        if ($this->isAutoumberExist($table_name, $column_name)) {
+            $this->error('An Autonumber record already exist for this column.');
+            $this->error('Use command `php artisan autonumber:list` to check all existing autonumbers');
+
             return;
         }
 
@@ -59,9 +62,9 @@ class CreateAutonumberCommand extends Command
         $min_digits = $this->askWithValidation('Minimum Digits to be included in every autonumber', ['integer', 'min:1'], 'min_digits');
 
         $example_autonumbers = [
-            $prefix . sprintf('%0'. $min_digits .'d',$seed_value) . $suffix,
-            $prefix . sprintf('%0'. $min_digits .'d',$seed_value + 1) . $suffix,
-            $prefix . sprintf('%0'. $min_digits .'d',$seed_value + 2) . $suffix
+            $prefix.sprintf('%0'.$min_digits.'d', $seed_value).$suffix,
+            $prefix.sprintf('%0'.$min_digits.'d', $seed_value + 1).$suffix,
+            $prefix.sprintf('%0'.$min_digits.'d', $seed_value + 2).$suffix,
         ];
 
         $this->table(
@@ -71,32 +74,33 @@ class CreateAutonumberCommand extends Command
 
         if ($this->confirm('Do you wish to create this autonumber?', true)) {
             $autonumber = $this->createAutonumber($table_name, $column_name, $prefix, $suffix, $min_digits, $seed_value);
-            if($autonumber)
+            if ($autonumber) {
                 $this->info("Autonumber is created for '$table_name' table");
+            }
         }
     }
 
     /**
-     * Function to ask for input and validate it
-     * 
-     * @param string $message
-     * @param array $rules
-     * @param string $name
+     * Function to ask for input and validate it.
+     *
+     * @param  string  $message
+     * @param  array  $rules
+     * @param  string  $name
      */
-    public function askWithValidation(string $message, array $rules = [], string $name) 
+    public function askWithValidation(string $message, array $rules = [], string $name)
     {
         $answer = $this->ask($message);
-        
+
         $validator = Validator::make([
             $name => $answer,
         ], [
             $name => $rules,
         ]);
-        
+
         if ($validator->passes()) {
             return $answer;
         }
-        
+
         foreach ($validator->errors()->all() as $error) {
             $this->error($error);
         }
@@ -105,31 +109,30 @@ class CreateAutonumberCommand extends Command
     }
 
     /**
-     * Function to check if autonumber already exist for the given table
-     * 
-     * @param string $table
-     * @param string $column
-     * 
+     * Function to check if autonumber already exist for the given table.
+     *
+     * @param  string  $table
+     * @param  string  $column
      * @return bool
      */
-    public function isAutoumberExist(string $table, string $column) : bool
+    public function isAutoumberExist(string $table, string $column): bool
     {
         $autonumber = Autonumber::where('table_name', $table)->where('column_name', $column)->get();
-        
+
         return (bool) (count($autonumber) > 0);
     }
 
     /**
-     * Function to create autonumber record in DB
-     * 
-     * @param string $table 
-     * @param string $column 
-     * @param string $prfix 
-     * @param string $suffix 
-     * @param int $min_digits 
-     * @param int $seed_value 
+     * Function to create autonumber record in DB.
+     *
+     * @param  string  $table
+     * @param  string  $column
+     * @param  string  $prfix
+     * @param  string  $suffix
+     * @param  int  $min_digits
+     * @param  int  $seed_value
      */
-    public function createAutonumber($table, $column, $prefix, $suffix, $min_digits, $seed_value) : Autonumber
+    public function createAutonumber($table, $column, $prefix, $suffix, $min_digits, $seed_value): Autonumber
     {
         return Autonumber::create([
             'table_name' => $table,
@@ -137,7 +140,7 @@ class CreateAutonumberCommand extends Command
             'prefix' => $prefix,
             'suffix' => $suffix,
             'min_digits' => $min_digits,
-            'next_number' => $seed_value
+            'next_number' => $seed_value,
         ]);
     }
 }

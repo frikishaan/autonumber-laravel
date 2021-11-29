@@ -17,7 +17,6 @@ class AutonumberServiceProvider extends ServiceProvider
          * load package assets
          */
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
-        
 
         if ($this->app->runningInConsole()) {
             $this->publishes([
@@ -27,7 +26,7 @@ class AutonumberServiceProvider extends ServiceProvider
             // Registering package commands.
             $this->commands([
                 CreateAutonumberCommand::class,
-                ListAllAutonumbersCommand::class
+                ListAllAutonumbersCommand::class,
             ]);
         }
     }

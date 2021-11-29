@@ -9,9 +9,9 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 class ListAutonumbersTest extends TestCase
 {
     use RefreshDatabase;
-    
+
     /** @test */
-    function it_lists_all_autonumbers()
+    public function it_lists_all_autonumbers()
     {
         // Create autonumbers
         Autonumber::create([
@@ -20,7 +20,7 @@ class ListAutonumbersTest extends TestCase
             'prefix' => 'ORD-',
             'suffix' => '',
             'min_digits' => 4,
-            'next_number' => 25
+            'next_number' => 25,
         ]);
 
         Autonumber::create([
@@ -29,7 +29,7 @@ class ListAutonumbersTest extends TestCase
             'prefix' => 'CASE-',
             'suffix' => '-SERVICE',
             'min_digits' => 4,
-            'next_number' => 256
+            'next_number' => 256,
         ]);
 
         $this->assertDatabaseCount('autonumbers', 2);
@@ -39,9 +39,9 @@ class ListAutonumbersTest extends TestCase
                 ['Table Name', 'Column Name', 'Prefix', 'Suffix', 'Min Digits'],
                 [
                     ['orders', 'order_no', 'ORD-', '', '4'],
-                    ['cases', 'case_no', 'CASE-', '-SERVICE', '4']
+                    ['cases', 'case_no', 'CASE-', '-SERVICE', '4'],
                 ]
             )
-            ->assertExitCode(0);        
+            ->assertExitCode(0);
     }
 }

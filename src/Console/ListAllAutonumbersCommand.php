@@ -14,7 +14,7 @@ class ListAllAutonumbersCommand extends Command
      */
     protected $signature = 'autonumber:list';
 
-     /**
+    /**
      * The console command description.
      *
      * @var string
@@ -30,19 +30,15 @@ class ListAllAutonumbersCommand extends Command
     {
         $autonumbers = Autonumber::select('table_name', 'column_name', 'prefix', 'suffix', 'min_digits')->get();
 
-        if(count($autonumbers) > 0)
-        {
-            $this->info("Below is the list of all autonumbers you have created");
+        if (count($autonumbers) > 0) {
+            $this->info('Below is the list of all autonumbers you have created');
 
             $this->table(
                 ['Table Name', 'Column Name', 'Prefix', 'Suffix', 'Min Digits'],
                 $autonumbers
             );
-
-        }
-        else
-        {
-            $this->info("You have not created any autonumbers yet. Create one using the command `php artisan autonumber:create`");
+        } else {
+            $this->info('You have not created any autonumbers yet. Create one using the command `php artisan autonumber:create`');
         }
     }
 }

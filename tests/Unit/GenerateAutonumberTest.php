@@ -9,9 +9,9 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 class GenerateAutonumberTest extends TestCase
 {
     use RefreshDatabase;
-    
+
     /** @test */
-    function it_generates_autonumber()
+    public function it_generates_autonumber()
     {
         // Create autonumber
         $this->artisan('autonumber:create')
@@ -27,17 +27,17 @@ class GenerateAutonumberTest extends TestCase
             )
             ->expectsConfirmation('Do you wish to create this autonumber?', 'yes')
             ->assertExitCode(0);
-        
+
         $invoice = Invoice::create([
-            'customer' => 'John Doe', 
-            'amount' => 1499.00
+            'customer' => 'John Doe',
+            'amount' => 1499.00,
         ]);
 
         $this->assertEquals('INV-0025', $invoice->invoice_no);
 
         $invoice = Invoice::create([
-            'customer' => 'Alan Donald', 
-            'amount' => 499.00
+            'customer' => 'Alan Donald',
+            'amount' => 499.00,
         ]);
 
         $this->assertEquals('INV-0026', $invoice->invoice_no);
